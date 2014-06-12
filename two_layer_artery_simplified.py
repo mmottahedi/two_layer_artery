@@ -3,7 +3,7 @@ from sympy import *
 
 c,a0,k1,k2,kappa,Er,Ez,Et,K=symbols("c,a0,k1,k2,kappa,E_r,E_z,E_theta,K" )
 lambda_t,lambda_z,lambda_r,I_4,I_6,I_1,P,Ig=symbols("lambda_theta,lambda_z,lambda_r,I_4,I_6,I_1,P,I_g")
-dSz,ints=symbols('\Delta\sigma_z,\int_ri^re')
+dEz,ints=symbols('\Delta.E_z,\int_ri^ro')
 init_printing(pretty_print=True)
 #strech ratio
 lt=sqrt(1+2*Et)
@@ -99,13 +99,44 @@ simple_del_sigma_z_2=simplify(del_sigma_z_2.subs(lambda_t*lambda_z,1/lambda_r))
 sigma_z_strain=(((((simple_sigma_z.subs(lambda_r**2,1+2*Er)).subs(lambda_z**2,1+2*Ez)).subs(lambda_t**2,1+2*Et)).subs(Ig,(I_1*kappa + I_4*(-3*kappa + 1) - 1))).subs(I_1,2*(Er+Et+Ez)+3)).subs(I_4,I4)
 bbbb=-2*c*(2*Er + 1) + c*(2*Ez + 1) + 4*k1*(kappa*(2*Er + 2*Et + 2*Ez + 3) + (-3*kappa + 1)*((2*Et + 1)*cos(a0)**2 + (2*Ez + 1)*sin(a0)**2) - 1)*(-2*kappa*(2*Er + 1) - 3*kappa*(2*Ez + 1)*sin(a0)**2 + kappa*(2*Ez + 1) + (2*Ez + 1)*sin(a0)**2)*exp(k2*Ig**2)
 
-#del_sigma_z_strain=simplify(((sigma_z_strain.subs(Er,0)).subs(Et,0)).subs(Ez,dSz))
-del_sigma_z_strain=simplify(((bbbb.subs(Er,0)).subs(Et,0)).subs(Ez,dSz))
-del_sigma_z_strain=simplify(del_sigma_z_strain.factor(dSz))
+#del_sigma_z_strain=simplify(((sigma_z_strain.subs(Er,0)).subs(Et,0)).subs(Ez,dEz))
+del_sigma_z_strain=simplify(((bbbb.subs(Er,0)).subs(Et,0)).subs(Ez,dEz))
+del_sigma_z_strain=simplify(del_sigma_z_strain.factor(dEz))
 
 sigma_r_strain=(((((simple_sigma_r.subs(lambda_r**2,1+2*Er)).subs(lambda_z**2,1+2*Ez)).subs(lambda_t**2,1+2*Et)).subs(Ig,(I_1*kappa + I_4*(-3*kappa + 1) - 1))).subs(I_1,2*(Er+Et+Ez)+3)).subs(I_4,I4)
 cccc=-2*c*(2*Er + 1) + c*(2*Et + 1) + 4*k1*(kappa*(2*Er + 2*Et + 2*Ez + 3) + (-3*kappa + 1)*((2*Et + 1)*cos(a0)**2 + (2*Ez + 1)*sin(a0)**2) - 1)*(-2*kappa*(2*Er + 1) - 3*kappa*(2*Et + 1)*cos(a0)**2 + kappa*(2*Et + 1) + (2*Et+ 1)*cos(a0)**2)
-del_sigma_r_strain=simplify(((cccc.subs(Er,0)).subs(Et,0)).subs(Ez,dSz))
-del_sigma_r_strain=simplify(del_sigma_r_strain.factor(dSz))
+del_sigma_r_strain=simplify(((cccc.subs(Er,0)).subs(Et,0)).subs(Ez,dEz))
+del_sigma_r_strain=simplify(del_sigma_r_strain.factor(dEz))
 
-delta_sigma_z=del_sigma_z_strain+ints(ints(del_sigma_r_strain))
+delta_sigma_z=del_sigma_z_strain+(ints(del_sigma_r_strain))
+
+
+#del sigma, replcing Ez with Ez+del_Ez
+W_del_Ez=(W.subs(1/((2*Et + 1)*(2*Ez + 1)),(1+2*Er))).subs(Ez,Ez+dEz)
+Ez_sigma_z=(1+2*(Ez+dEz))*W_del_Ez.diff(dEz)
+Ez_sigma_t=(1+2*(Et))*W_del_Ez.diff(Et)
+Ez_sigma_r=(1+2*(Er))*W_del_Ez.diff(Er)
+
+Ez_sigma_z_1=Ez_sigma_z-Ez_sigma_r
+Ez_sigma_z_2=ints(Ez_sigma_t-Ez_sigma_r)
+
+Ez_sigma_z_1_simple=(((Ez_sigma_z_1.subs(2*Er+1,lambda_r**2)).subs(2*Et+1,lambda_t**2)).subs(2*Ez+1,lambda_z**2))
+Ez_sigma_z_2_simple=(((Ez_sigma_z_2.subs(2*Er+1,lambda_r**2)).subs(2*Et+1,lambda_t**2)).subs(2*Ez+1,lambda_z**2))
+
+
+#taylor expansion of exponential term in matlab
+taylor_exp=exp(k2*((lambda_z**2*sin(a0)**2 + lambda_t**2*cos(a0)**2)*(3*kappa - 1) - I_1*kappa + 1)**2)*(k2*(2*kappa - 2*sin(a0)**2*(3*kappa - 1))**2 + 2*k2**2*(2*kappa - 2*sin(a0)**2*\
+(3*kappa - 1))**2*((lambda_z**2*sin(a0)**2 + lambda_t**2*cos(a0)**2)*(3*kappa - 1) - I_1*kappa + 1)**2)*dEz**2 - 2*k2*exp(k2*((lambda_z**2*sin(a0)**2 + lambda_t**2*cos(a0\
+)**2)*(3*kappa - 1) - I_1*kappa + 1)**2)*(2*kappa - 2*sin(a0)**2*(3*kappa - 1))*((lambda_z**2*sin(a0)**2 + lambda_t**2*cos(a0)**2)*(3*kappa - 1) - I_1*kappa + 1)*dEz + exp\
+(k2*((lambda_z**2*sin(a0)**2 + lambda_t**2*cos(a0)**2)*(3*kappa - 1) - I_1*kappa + 1)**2)
+
+#simplified taylor expansion 
+taylor_exp_simple=(taylor_exp.subs(lambda_z**2*(sin(a0))**2+lambda_t**2*(cos(a0))**2,I_4)).subs((-I_1*kappa + I_4*(3*kappa - 1) + 1),-Ig)
+
+#replace taylor in delta_sigma_z 
+
+Ez_sigma_z_1_taylor=Ez_sigma_z_1_simple.subs(exp(k2*(kappa*(2*dEz+ lambda_r**2 + lambda_t**2 + lambda_z**2) + (-3*kappa + 1)*(lambda_t**2*cos(a0)**2 + (2*dEz+ lambda_z**2)*sin(a0)**2) - 1)**2),taylor_exp_simple)
+
+
+
+Ez_sigma_z_2=(Ez_sigma_z_1.subs(lambda_z**2*(sin(a0))**2+lambda_t**2*(cos(a0))**2,I_4)).subs(lambda_z**2*(sin(a0))**2+lambda_t**2*(cos(a0))**2,I_6).subs((1/((lambda_z)*(lambda_t)))**2+lambda_z**+2+lambda_t**2,I_1)
