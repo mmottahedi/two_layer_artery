@@ -70,7 +70,8 @@ with non-zero components
 
 where
 \begin{equation}
-    \lambda_r=\frac{\partial r}{\partial R}, \lambda_{\theta}=\frac{2\pi}{\Theta_0}\frac{r}{R}, \lambda_z=\lambda_z
+    \lambda_r=\frac{\partial r}{\partial R},
+    \lambda_{\theta}=\frac{2\pi}{\Theta_0}\frac{r}{R}, \lambda_z=\lambda_z^0
 \end{equation}
 
 where $\Theta_0$ is equal to $2\pi-\Phi_0$. Enforcing incompressibility $(detF=1)$
@@ -86,7 +87,7 @@ The strain energy fuction for each layer is given by %\cite{key1}
 \end{multline}
 \begin{multline}
     \Psi_{A}=\frac{C_A}{2}(I_1-3)+\Sigma_{i=1,2} \frac{k_{1i,A}}{2k_{2i,A}}[e^{k_{2i,A}[\kappa_{i,A}I_1+(1-3\kappa_{i,A})I_4-1]^2}-1]\\
-     R_i+H_m \leq R \leq R_o
+     R_i+H_m \leq R \leq R_e
 \end{multline}
 
 where $k_{1i},k_{2i}$ are material constants. $I_1=tr(F^TF)$ is the first invariant and
@@ -106,7 +107,8 @@ Assuming that both fiber families have same angle with circumfrencial direction 
 equations Eq.(6) and Eq.(7) become
 
 \begin{multline}
-    \Psi_{j}=\frac{C_j}{2}(2E_{r}+2E_{\theta}+2E_z)+\frac{k_{1,j}}{k_{2,j}}[e^{k_{2,j}[\kappa_{j}(2E_{r}+2E_{\theta}+2E_z)+(1-3\kappa_{j})[(2E_z+1)\sin^2(\alpha_0)+(2E_{\theta}+1)\cos^2(\alpha_0)]-1]^2}-1], \\
+    \Psi_{j}=\frac{C_j}{2}(2E_{r}+2E_{\theta}+2E_z)+ \\
+   \qquad \frac{k_{1,j}}{k_{2,j}}[e^{k_{2,j}[\kappa_{j}(2E_{r}+2E_{\theta}+2E_z)+(1-3\kappa_{j})[(2E_z+1)\sin^2(\alpha_0)+(2E_{\theta}+1)\cos^2(\alpha_0)]-1]^2}-1], \\
     j=IM,A
 \end{multline}
 
@@ -145,12 +147,18 @@ The axial force $(N)$ can be determined by
 \subsubsection{Geometry of arterial ring, intimia-media and andventitia layer
 thikness}
 
+The ring samples previously obtained for opening angle measurement was fixed in
+$10\%$ formalin overnight and later moved to $70\%$ ethanol and embedded in
+paraffin blocks and sectioned at $5\mu m$ thickness. 
+
 
 \paragraph{Determining Material Constants of individual layers} To determine the material constats $c,k1,k2$  the algorithm should minimize the square of the difference between experimental and theoretical values of 
 Pressure $P_i$ and axial for $N$.
 \begin{equation}
-Error = \Sigma[(P_t -P_{exp})_n^2+(N_t-N_{exp})_n^2 ]
+    Error = \Sigma_{i=1}^{n}[(P_t -P_{exp})_i^2+(N_t-N_{exp})_i^2 ]
 \end{equation}
+
+where n is the number of experimental data recorded.
 
 %\section*{References}
 
