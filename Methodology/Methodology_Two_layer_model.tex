@@ -1,0 +1,158 @@
+\documentclass[review]{elsarticle}
+\usepackage{lineno,hyperref}
+\modulolinenumbers[5]
+%\journal{journal of \LaTeX\ Templates}
+%\bibliographystyle{elsarticle-num}
+\usepackage{amsmath}
+%\documentclass[11pt]{article}
+%\usepackage{fullpage}
+
+\begin{frontmatter}
+\title{Two layer Artery Model with Distributed Fiber Orientation}
+\author{Mohammad Mottahedi\fnref{myfootnote}}
+\address{address}
+\begin{document}
+\maketitle
+\begin{abstract}
+this is abstract
+\end{abstract}
+
+\begin{keyword}
+this is keyword
+\end{keyword}
+
+\end{frontmatter}
+
+
+\section{Methodology}
+
+
+\subsection{Experimental Measurements}
+\paragraph{Preconditioning and biaxial test} Intact Artery. To determine the stress-strain relationship of porcine artery, the axial extension and radial
+inflation were measured under internal lumen pressure. The artery was mounted on the cannula horizontally on one end and tied to a luer stopper on the
+other end to allow for free axial extension. The cannula was connected to a pressure meter and syringe pump filled with PBS solution. The artery was 
+preconditioned to obtain reproducible mechanical data by inflating the artery to a $300 mmHg$ pressure for five cycle. After preconditioning the
+the artery was slowly inflated and the inflated outer diameter and extended length of the artery was measured from digital images taken during the inflation test.
+\paragraph{Individual layers biaxial test} After completing the biaxial test on the intact artery, the adventitia layer was carefully dissected 
+without damaging the Media and Intima layers. Intima-Media layer was tested using the biaxial test protocol described above. 
+\paragraph{No-load and Zero Stress State} To obtain the no-load opening angle, rings were cut off from proximal and distal ends of the artery and
+photographed under zero load condition. The rings were cut off radially and left in PBS solution for a while to relax and photographed again for 
+morphological analysis.
+
+\subsection{Model equations}
+
+The arteries are modeled as two-layers with separate mechanical properties for the intimia-media and adventitia layers. The arterial layer was modeled
+as fiber-reinforce composite in which two families of collagen fibers are embeded in ground matrix by means of an incompressible isotropic \emph{neo-Hookean} model.  the arteries are considered with 
+an opening angle $\Phi_0$ to account for residual stress in cirmuferencial direction. At zero stress state the inner radius, outer radius, and length of the artery 
+are defined by $R_{i}^A,R_{e}^A,L$ for adventitia layer and
+$R_{i}^IM,R_{e}^{IM},L$ for intimia-media layer. Similarly the inner radius, outer radius, and
+length at deformed state under internal pressure $p$ are $r_{i}^A,r_{e}^A,l$
+and $r_{i}^{IM},r_{e }^{IM},l$.
+
+In cylindrical coordinates the deformation gradient matrix $F$ is:
+
+\begin{equation}
+  F=  \left[\begin{array}{ccc}
+        \frac{dr}{dR} & 0 & 0 \\
+        0 & \frac{2\pi}{\Theta_0}\frac{r}{R} & 0 \\
+    0 & 0 & \lambda_z \end{array} \right]
+    \end{equation}
+
+The Green strain tensor is
+\begin{equation}
+    E=\frac{1}{2}(F^TF-I)
+\end{equation}
+
+with non-zero components
+\begin{equation}
+    E_r=\frac{1}{2}(\lambda_r^2-1), E_{\theta}=\frac{1}{2}(\lambda_{\theta}^2-1), E_z=\frac{1}{2}(\lambda_z^2-1) 
+\end{equation}
+
+where
+\begin{equation}
+    \lambda_r=\frac{\partial r}{\partial R}, \lambda_{\theta}=\frac{2\pi}{\Theta_0}\frac{r}{R}, \lambda_z=\lambda_z
+\end{equation}
+
+where $\Theta_0$ is equal to $2\pi-\Phi_0$. Enforcing incompressibility $(detF=1)$
+
+\begin{equation}
+    \lambda_r\lambda_{\theta}\lambda_z=1, \frac{\partial r}{\partial R}=\frac{\Theta_0 R}{\pi r \lambda_z}
+\end{equation}
+
+The strain energy fuction for each layer is given by %\cite{key1}
+\begin{multline} 
+    \Psi_{IM}=\frac{C_{IM}}{2}(I_1-3)+\Sigma_{i=1,2} \frac{k_{1i,IM}}{2k_{2i,IM}}[e^{k_{2i,IM}[\kappa_{i,IM}I_1+(1-3\kappa_{i,IM})I_4-1]^2}-1] \\
+     R_i \leq R \leq R_i+H_m 
+\end{multline}
+\begin{multline}
+    \Psi_{A}=\frac{C_A}{2}(I_1-3)+\Sigma_{i=1,2} \frac{k_{1i,A}}{2k_{2i,A}}[e^{k_{2i,A}[\kappa_{i,A}I_1+(1-3\kappa_{i,A})I_4-1]^2}-1]\\
+     R_i+H_m \leq R \leq R_o
+\end{multline}
+
+where $k_{1i},k_{2i}$ are material constants. $I_1=tr(F^TF)$ is the first invariant and
+$I_4=\lambda_z^2\sin^2(\alpha_0)+\lambda_{\theta}^2 \cos^2(\alpha_0)$ is a measure of stretch in the $i$th family of fiber. $\alpha_0$ is the
+angle between the fiber and radial direction of the artery. $\kappa$ is the disperssion parameter between $[0,\frac{1}{3}]$ and defined by
+\begin{equation}
+    \kappa=\frac{1}{4}\int_0^{\pi} \rho(\theta) \sin^3(\theta)\theta d\theta
+\end{equation}
+
+$\rho(\theta)$ is the modified $\pi$-periodic \emph{von-Mises} distribution that was used to determine the collagen fiber distribution 
+embeded in each layer.
+\begin{equation}
+    \rho(\theta)=4\sqrt{\frac{b}{2\pi}}\frac{e^{[b(\cos(2\theta)+1)]}}{erfi(\sqrt{2b})}
+\end{equation}
+
+Assuming that both fiber families have same angle with circumfrencial direction and material properties due to axi-symmetry of the arteries, i.e. $k_{11}=k_{12}$,$k_{21}=k_{22},\alpha_{01}=\alpha_{02}$
+equations Eq.(6) and Eq.(7) become
+
+\begin{multline}
+    \Psi_{j}=\frac{C_j}{2}(2E_{r}+2E_{\theta}+2E_z)+\frac{k_{1,j}}{k_{2,j}}[e^{k_{2,j}[\kappa_{j}(2E_{r}+2E_{\theta}+2E_z)+(1-3\kappa_{j})[(2E_z+1)\sin^2(\alpha_0)+(2E_{\theta}+1)\cos^2(\alpha_0)]-1]^2}-1], \\
+    j=IM,A
+\end{multline}
+
+the Cauchy stresses in cylinderical coordinates are given by
+\begin{equation}
+    \sigma_i=\lambda_i^2 \frac{\partial \Psi_j}{\partial E_i}+ K, \quad
+    i=r,\theta,z, \quad j=IM,A
+\end{equation}
+
+K is the Lagrangian multiplier that enforces incompressibility.
+
+The euqaiton of equilibrium in a straght axisymmetric artery is
+\begin{equation}
+    \frac{\partial \sigma_r}{\partial r}+\frac{\sigma_r-\sigma_\theta}{r}=0
+\end{equation}
+with boundary conditions
+\begin{equation}
+    \sigma(r_i)\mid_{r=r_i^{IM}}=-P;\sigma_r\mid_{r=r_o^{IM}}=\sigma_r\mid_{r=r_i^A};\sigma_r\mid_{r=r_o^A}=0
+\end{equation}
+
+Integration along boundary conditions yields
+\begin{equation}
+    P=\int_{r_{i}^{IM}}^{r_{e}^{IM}}(\lambda_\theta^2 \frac{\partial
+    \Psi_{IM}}{\partial E_\theta} - \lambda_r^2 \frac{\partial
+    \Psi_{IM}}{\partial E_r}) \frac{\partial r}{r}\\
+    +\int_{r_{i}^A}^{r_{e}^A}(\lambda_\theta^2 \frac{\partial \Psi_{A}}{\partial E_\theta} - \lambda_r^2 \frac{\partial \Psi_{A}}{\partial E_r}) \frac{\partial r}{r}
+\end{equation}uu
+
+The axial force $(N)$ can be determined by
+\begin{equation}
+    N=\pi \int_{r_{i}^{IM}}^{r_{e}^{IM}}(2\lambda_z^2 \frac{\partial \Psi_{IM}}{\partial E_z}- \lambda_\theta^2 \frac{\partial \Psi_{IM}}{\partial E_\theta}- \lambda_r^2 \frac{\partial \Psi_{IM}}{\partial E_r})rdr 
+    +\pi \int_{r_{i}^A}^{r_{e}^A}(2\lambda_z^2 \frac{\partial \Psi_{A}}{\partial E_z}- \lambda_\theta^2 \frac{\partial \Psi_{A}}{\partial E_\theta}- \lambda_r^2 \frac{\partial \Psi_{A}}{\partial Er})rdr                           
+\end{equation}
+
+\subsection{Determination of model parameters}
+\subsubsection{Geometry of arterial ring, intimia-media and andventitia layer
+thikness}
+
+
+\paragraph{Determining Material Constants of individual layers} To determine the material constats $c,k1,k2$  the algorithm should minimize the square of the difference between experimental and theoretical values of 
+Pressure $P_i$ and axial for $N$.
+\begin{equation}
+Error = \Sigma[(P_t -P_{exp})_n^2+(N_t-N_{exp})_n^2 ]
+\end{equation}
+
+%\section*{References}
+
+\end{document}
+
